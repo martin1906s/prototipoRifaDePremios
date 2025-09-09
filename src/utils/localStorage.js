@@ -54,6 +54,15 @@ export const getInitialState = () => {
     raffles: [], // Added for advanced features
     duplicateNumber: null, // Para manejar números duplicados
     error: null, // Para mensajes de error
+    economicWinners: [], // Ganadores de sorteos económicos
+    majorWinners: [], // Ganadores de sorteos mayores
+    // Configuraciones de la rifa
+    raffleConfig: {
+      ticketPrice: 10, // Precio por boleto
+      totalTickets: null, // Cantidad total de boletos (null = automático 1-99999)
+      minTicketNumber: 1, // Número mínimo de boleto
+      maxTicketNumber: 99999 // Número máximo de boleto
+    },
     ticketPackages: [
       { id: 'package-6', name: 'Paquete Básico', count: 6, price: 60, description: '6 boletos personalizados' },
       { id: 'package-10', name: 'Paquete Estándar', count: 10, price: 95, description: '10 boletos personalizados' },

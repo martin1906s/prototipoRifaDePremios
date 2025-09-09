@@ -14,6 +14,28 @@ function appReducer(state, action) {
       const { number } = action.payload
       const existingTicket = state.tickets.find(t => t.number === number)
       
+      // Validar que no exceda el límite de boletos configurado
+      const maxTickets = state.raffleConfig?.totalTickets || 100
+      if (state.tickets.length >= maxTickets) {
+        return {
+          ...state,
+          error: `Se ha alcanzado el límite máximo de ${maxTickets} boletos para esta rifa`,
+          duplicateNumber: null
+        }
+      }
+      
+      // Validar rango de números
+      const minNumber = state.raffleConfig?.minTicketNumber || 1
+      const maxNumber = state.raffleConfig?.maxTicketNumber || 100
+      const numValue = parseInt(number)
+      if (numValue < minNumber || numValue > maxNumber) {
+        return {
+          ...state,
+          error: `El número debe estar entre ${String(minNumber).padStart(5, '0')} y ${String(maxNumber).padStart(5, '0')}`,
+          duplicateNumber: null
+        }
+      }
+      
       if (existingTicket) {
         return {
           ...state,
@@ -35,6 +57,29 @@ function appReducer(state, action) {
     }
     case 'ADD_ALTERNATIVE_TICKET_NUMBER': {
       const { number } = action.payload
+      
+      // Validar que no exceda el límite de boletos configurado
+      const maxTickets = state.raffleConfig?.totalTickets || 100
+      if (state.tickets.length >= maxTickets) {
+        return {
+          ...state,
+          error: `Se ha alcanzado el límite máximo de ${maxTickets} boletos para esta rifa`,
+          duplicateNumber: null
+        }
+      }
+      
+      // Validar rango de números
+      const minNumber = state.raffleConfig?.minTicketNumber || 1
+      const maxNumber = state.raffleConfig?.maxTicketNumber || 100
+      const numValue = parseInt(number)
+      if (numValue < minNumber || numValue > maxNumber) {
+        return {
+          ...state,
+          error: `El número debe estar entre ${String(minNumber).padStart(5, '0')} y ${String(maxNumber).padStart(5, '0')}`,
+          duplicateNumber: null
+        }
+      }
+      
       return {
         ...state,
         tickets: [...state.tickets, {
@@ -60,7 +105,7 @@ function appReducer(state, action) {
     case 'CLEAR_ERROR': {
       return {
         ...state,
-        error: null
+        error: action.payload || null
       }
     }
     case 'CONFIRM_PURCHASE': {
@@ -84,6 +129,39 @@ function appReducer(state, action) {
     }
     case 'CREATE_RAFFLE': {
       return { ...state, raffles: [...(state.raffles || []), action.payload] }
+    }
+    case 'ADD_ECONOMIC_WINNERS': {
+      return { ...state, economicWinners: [...(state.economicWinners || []), ...action.payload] }
+    }
+    case 'ADD_MAJOR_WINNER': {
+      console.log('Reducer ADD_MAJOR_WINNER - Payload recibido:', action.payload)
+      console.log('Reducer ADD_MAJOR_WINNER - Ganadores actuales:', state.majorWinners)
+      const newWinners = [...(state.majorWinners || []), ...action.payload]
+      console.log('Reducer ADD_MAJOR_WINNER - Nuevos ganadores:', newWinners)
+      return { ...state, majorWinners: newWinners }
+    }
+    case 'CLEAR_ALL_WINNERS': {
+      return { ...state, economicWinners: [], majorWinners: [] }
+    }
+    case 'UPDATE_RAFFLE_CONFIG': {
+      return { 
+        ...state, 
+        raffleConfig: { 
+          ...state.raffleConfig, 
+          ...action.payload 
+        } 
+      }
+    }
+    case 'RESET_RAFFLE_CONFIG': {
+      return { 
+        ...state, 
+        raffleConfig: {
+          ticketPrice: 10,
+          totalTickets: null,
+          minTicketNumber: 1,
+          maxTicketNumber: 99999
+        }
+      }
     }
     default:
       return state

@@ -5,8 +5,8 @@ export default function ProgressBar() {
   const { state } = useContext(AppContext)
   
   const soldTickets = state.tickets.filter(t => t.status === 'sold').length
-  const totalTickets = 100
-  const percentage = Math.round((soldTickets / totalTickets) * 100)
+  const totalTickets = 100 // Límite fijo de 100 boletos para la rifa
+  const percentage = Math.min(Math.round((soldTickets / totalTickets) * 100), 100) // Limitar a 100%
   
   return (
     <div className="d-flex align-items-center gap-2 gap-md-3">
@@ -24,7 +24,9 @@ export default function ProgressBar() {
           </div>
         </div>
         <div className="text-center mt-1">
-          <small className="text-white fw-bold">{percentage}% vendido</small>
+          <small className="text-white fw-bold">
+            {soldTickets >= totalTickets ? '100% vendido' : `${percentage}% vendido`}
+          </small>
         </div>
       </div>
       

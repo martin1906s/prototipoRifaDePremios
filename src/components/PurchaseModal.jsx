@@ -25,6 +25,8 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
     [state.tickets]
   )
 
+  const ticketPrice = state.raffleConfig?.ticketPrice || 10
+
   const isValidForm = formData.fullName.trim() && 
                      formData.documentId.trim() && 
                      /.+@.+\..+/.test(formData.email) && 
@@ -278,7 +280,7 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
                     </div>
                     <div className="text-end">
                       <div className="text-white-50 small">Total</div>
-                      <div className="h5 fw-bold text-gradient">${selectedNumbers.length * 10}</div>
+                      <div className="h5 fw-bold text-gradient">${selectedNumbers.length * ticketPrice}</div>
                     </div>
                   </div>
                 </div>
@@ -378,7 +380,7 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
                     </div>
                     <div className="col-6">
                       <div className="text-white-50 small">Total</div>
-                      <div className="text-white fw-semibold">${selectedNumbers.length * 10}</div>
+                      <div className="text-white fw-semibold">${selectedNumbers.length * ticketPrice}</div>
                     </div>
                     <div className="col-12">
                       <div className="text-white-50 small">Boletos</div>

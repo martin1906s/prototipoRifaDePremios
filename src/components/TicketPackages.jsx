@@ -15,6 +15,11 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
   const selectedNumbers = state.tickets.filter(t => t.status === 'selected').map(t => t.number)
   const minRequired = selectedPackage ? 
     (selectedPackage.count === 'custom' ? customQuantity : selectedPackage.count) : 6
+  const totalTickets = state.tickets.length
+  const maxTickets = state.raffleConfig?.totalTickets || 100
+  const ticketPrice = state.raffleConfig?.ticketPrice || 10
+  const minTicketNumber = state.raffleConfig?.minTicketNumber || 1
+  const maxTicketNumber = state.raffleConfig?.maxTicketNumber || 99999
 
   // Usar useEffect para evitar llamar setState durante el render
   useEffect(() => {
@@ -23,13 +28,58 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
     }
   }, [selectedNumbers.length, minRequired, onMinSelectionInvalid])
 
-  // Verificar si existen los paquetes, si no, usar paquetes por defecto
-  const ticketPackages = state.ticketPackages || [
-    { id: 'package-6', name: 'Paquete Básico', count: 6, price: 60, description: '6 boletos personalizados' },
-    { id: 'package-10', name: 'Paquete Estándar', count: 10, price: 95, description: '10 boletos personalizados' },
-    { id: 'package-15', name: 'Paquete Premium', count: 15, price: 135, description: '15 boletos personalizados' },
-    { id: 'package-20', name: 'Paquete VIP', count: 20, price: 170, description: '20 boletos personalizados' },
-    { id: 'package-custom', name: 'Cantidad Personalizada', count: 'custom', price: 0, description: 'Elige tu cantidad (mín. 6 boletos)' }
+  // Recalcular paquetes cuando cambie el precio
+  useEffect(() => {
+    // Los paquetes se recalculan automáticamente porque son calculados en cada render
+    // basándose en el ticketPrice actual
+  }, [ticketPrice])
+
+  // Calcular precios dinámicamente basándose en el precio configurado
+  const calculatePackagePrice = (count) => {
+    const basePrice = ticketPrice
+    if (count <= 6) return count * basePrice
+    if (count <= 10) return count * (basePrice * 0.95) // 5% descuento
+    if (count <= 15) return count * (basePrice * 0.90) // 10% descuento
+    return count * (basePrice * 0.85) // 15% descuento
+  }
+
+  // Generar paquetes dinámicamente con precios calculados
+  const ticketPackages = [
+    { 
+      id: 'package-6', 
+      name: 'Paquete Básico', 
+      count: 6, 
+      price: calculatePackagePrice(6), 
+      description: '6 boletos personalizados' 
+    },
+    { 
+      id: 'package-10', 
+      name: 'Paquete Estándar', 
+      count: 10, 
+      price: calculatePackagePrice(10), 
+      description: '10 boletos personalizados' 
+    },
+    { 
+      id: 'package-15', 
+      name: 'Paquete Premium', 
+      count: 15, 
+      price: calculatePackagePrice(15), 
+      description: '15 boletos personalizados' 
+    },
+    { 
+      id: 'package-20', 
+      name: 'Paquete VIP', 
+      count: 20, 
+      price: calculatePackagePrice(20), 
+      description: '20 boletos personalizados' 
+    },
+    { 
+      id: 'package-custom', 
+      name: 'Cantidad Personalizada', 
+      count: 'custom', 
+      price: 0, 
+      description: 'Elige tu cantidad (mín. 6 boletos)' 
+    }
   ]
 
   const handlePackageSelect = (pkg) => {
@@ -52,6 +102,14 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
   const handleNumberSubmit = (e) => {
     e.preventDefault()
     if (currentNumber.length === 5 && /^\d{5}$/.test(currentNumber) && currentNumber !== '00000') {
+      // Verificar límite antes de agregar
+      if (totalTickets >= maxTickets) {
+        dispatch({ 
+          type: 'CLEAR_ERROR', 
+          payload: 'Se ha alcanzado el límite máximo de 100 boletos para esta rifa'
+        })
+        return
+      }
       dispatch({ type: 'ADD_TICKET_NUMBER', payload: { number: currentNumber } })
       setCurrentNumber('')
     }
@@ -74,18 +132,37 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
     dispatch({ type: 'CLEAR_DUPLICATE_NUMBER' })
   }
 
+  const generateRandomNumber = () => {
+    const usedNumbers = state.tickets.map(t => t.number)
+    let randomNumber
+    
+    do {
+      // Generar número aleatorio en el rango configurado
+      const range = maxTicketNumber - minTicketNumber + 1
+      const randomValue = Math.floor(Math.random() * range) + minTicketNumber
+      randomNumber = String(randomValue).padStart(5, '0')
+    } while (usedNumbers.includes(randomNumber))
+    
+    setCurrentNumber(randomNumber)
+  }
+
   const handleQuantityConfirm = () => {
     if (customQuantity >= 6) {
+      // Verificar que no exceda el límite total
+      if (customQuantity > (maxTickets - totalTickets)) {
+        dispatch({ 
+          type: 'CLEAR_ERROR', 
+          payload: `Solo puedes agregar ${maxTickets - totalTickets} boletos más (límite: ${maxTickets})`
+        })
+        return
+      }
       setShowQuantityInput(false)
       setShowNumberInput(true)
     }
   }
 
   const calculatePrice = (quantity) => {
-    if (quantity <= 6) return quantity * 10
-    if (quantity <= 10) return quantity * 9.5
-    if (quantity <= 15) return quantity * 9
-    return quantity * 8.5
+    return calculatePackagePrice(quantity)
   }
 
   return (
@@ -150,9 +227,13 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
                   className="form-control border-0 rounded-pill px-4 py-3"
                   style={{background: 'rgba(255,255,255,0.9)', color: '#333'}}
                   value={customQuantity}
-                  onChange={(e) => setCustomQuantity(Math.max(6, parseInt(e.target.value) || 6))}
+                  onChange={(e) => {
+                    const value = Math.max(6, parseInt(e.target.value) || 6)
+                    const maxAllowed = Math.min(100, maxTickets - totalTickets + selectedNumbers.length)
+                    setCustomQuantity(Math.min(value, maxAllowed))
+                  }}
                   min="6"
-                  max="100"
+                  max={Math.min(100, maxTickets - totalTickets + selectedNumbers.length)}
                 />
                 <button
                   type="button"
@@ -169,6 +250,9 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
                 <div className="text-white-50 small">Precio Total</div>
                 <div className="h4 fw-bold text-gradient">${calculatePrice(customQuantity)}</div>
                 <div className="text-white-50 small">${(calculatePrice(customQuantity) / customQuantity).toFixed(1)} por boleto</div>
+                <div className="text-white-50 small mt-2">
+                  Disponibles: {maxTickets - totalTickets + selectedNumbers.length}
+                </div>
               </div>
             </div>
           </div>
@@ -226,18 +310,34 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
                     style={{background: 'rgba(255,255,255,0.9)', color: '#333'}}
                     value={currentNumber}
                     onChange={(e) => setCurrentNumber(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                    placeholder="Ingresa un número de 5 dígitos (ej: 12345, desde 00001)"
+                    placeholder={`Ingresa un número de 5 dígitos (ej: 12345, desde ${String(minTicketNumber).padStart(5, '0')} hasta ${String(maxTicketNumber).padStart(5, '0')})`}
                     maxLength="5"
+                    disabled={totalTickets >= maxTickets}
                   />
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary border-0 rounded-pill px-3"
+                    onClick={generateRandomNumber}
+                    title="Generar número aleatorio"
+                    disabled={totalTickets >= maxTickets}
+                  >
+                    <i className="fas fa-dice"></i>
+                  </button>
                   <button
                     type="submit"
                     className="btn gradient-primary text-white border-0 rounded-pill px-4"
-                    disabled={currentNumber.length !== 5}
+                    disabled={currentNumber.length !== 5 || totalTickets >= maxTickets}
                   >
                     <i className="fas fa-plus"></i>
                   </button>
                 </div>
               </form>
+              {totalTickets >= maxTickets && (
+                <div className="alert alert-warning mt-2 mb-0" role="alert">
+                  <i className="fas fa-exclamation-triangle me-2"></i>
+                  Límite máximo de {maxTickets} boletos alcanzado
+                </div>
+              )}
             </div>
             <div className="col-md-4">
               <div className="text-center">
@@ -250,6 +350,9 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
                     className="progress-bar gradient-primary" 
                     style={{width: `${(selectedNumbers.length / selectedPackage.count) * 100}%`}}
                   ></div>
+                </div>
+                <div className="text-white-50 small mt-2">
+                  Total: {totalTickets}/{maxTickets} boletos
                 </div>
               </div>
             </div>
