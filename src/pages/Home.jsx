@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react'
-import TicketGrid from '../components/TicketGrid.jsx'
+import TicketPackages from '../components/TicketPackages.jsx'
 import PurchaseModal from '../components/PurchaseModal.jsx'
 import { AppContext } from '../App.jsx'
 
@@ -9,7 +9,7 @@ export default function Home() {
   const [minInvalid, setMinInvalid] = useState(true)
   const [lastOrder, setLastOrder] = useState(null)
 
-  const selectedIds = useMemo(() => state.tickets.filter(t => t.status === 'selected').map(t => t.id), [state.tickets])
+  const selectedNumbers = useMemo(() => state.tickets.filter(t => t.status === 'selected').map(t => t.number), [state.tickets])
 
   const lastPurchase = useMemo(() => state.purchases[0] || null, [state.purchases])
 
@@ -25,11 +25,11 @@ export default function Home() {
           <div className="mb-3 mb-md-5 animate-fade-in">
             <div className="text-center mb-3 mb-md-4">
               <h1 className="display-4 fw-bold text-white mb-2 mb-md-3">🎯 Elige tus boletos de la suerte</h1>
-              <p className="lead text-white-75 d-none d-md-block">Selecciona mínimo 6 boletos para participar en esta increíble rifa</p>
-              <p className="text-white-75 d-md-none">Selecciona mínimo 6 boletos</p>
+              <p className="lead text-white-75 d-none d-md-block">Selecciona un paquete y escribe tus números de 5 dígitos</p>
+              <p className="text-white-75 d-md-none">Selecciona un paquete y escribe tus números</p>
             </div>
             <div className="glass rounded-3 rounded-md-4 p-3 p-md-5 hover-lift">
-              <TicketGrid onMinSelectionInvalid={setMinInvalid} />
+              <TicketPackages onMinSelectionInvalid={setMinInvalid} />
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function Home() {
               <div className="text-center mb-4">
                 <div className="fs-1 mb-2">🎫</div>
                 <h3 className="h4 fw-bold text-white mb-1">Boletos Seleccionados</h3>
-                <div className="display-3 fw-bold text-gradient">{selectedIds.length}</div>
+                <div className="display-3 fw-bold text-gradient">{selectedNumbers.length}</div>
                 <small className="text-white-50">de 6 mínimo requeridos</small>
               </div>
               <button
@@ -62,7 +62,7 @@ export default function Home() {
               <div className="d-flex align-items-center justify-content-between mb-3">
                 <div>
                   <div className="text-white-50 small">Boletos Seleccionados</div>
-                  <div className="h4 fw-bold text-gradient mb-0">{selectedIds.length}/6</div>
+                  <div className="h4 fw-bold text-gradient mb-0">{selectedNumbers.length}/6</div>
                 </div>
                 <div className="fs-3">🎫</div>
               </div>

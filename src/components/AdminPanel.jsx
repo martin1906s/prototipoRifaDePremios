@@ -123,7 +123,7 @@ export default function AdminPanel() {
             </div>
           ) : (
             soldTickets.map((t, index) => {
-              const purchase = state.purchases.find(p => p.tickets.includes(t.id))
+              const purchase = state.purchases.find(p => p.tickets.includes(t.number))
               return (
                 <div key={t.id} className="col-md-6 col-lg-4">
                   <div className="glass-dark rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift" 
@@ -131,7 +131,7 @@ export default function AdminPanel() {
                     <div className="d-flex align-items-center gap-3">
                       <div className="fs-4">🎫</div>
                       <div>
-                        <div className="fw-bold font-monospace text-white">#{t.id}</div>
+                        <div className="fw-bold font-monospace text-white">#{t.number}</div>
                         <div className="small text-white-50">{purchase?.buyer?.fullName || t.buyerName}</div>
                       </div>
                     </div>

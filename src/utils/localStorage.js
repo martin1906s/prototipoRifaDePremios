@@ -48,10 +48,18 @@ export const getInitialState = () => {
   
   // Estado inicial por defecto si no hay datos guardados
   return {
-    tickets: Array.from({ length: 100 }, (_, i) => {
-      const number = String(i + 1).padStart(5, '0')
-      return { id: number, number, status: 'available' }
-    }),
+    tickets: [], // Ahora se crean dinámicamente cuando el usuario ingresa números
     purchases: [],
+    receipts: [], // Added for advanced features
+    raffles: [], // Added for advanced features
+    duplicateNumber: null, // Para manejar números duplicados
+    error: null, // Para mensajes de error
+    ticketPackages: [
+      { id: 'package-6', name: 'Paquete Básico', count: 6, price: 60, description: '6 boletos personalizados' },
+      { id: 'package-10', name: 'Paquete Estándar', count: 10, price: 95, description: '10 boletos personalizados' },
+      { id: 'package-15', name: 'Paquete Premium', count: 15, price: 135, description: '15 boletos personalizados' },
+      { id: 'package-20', name: 'Paquete VIP', count: 20, price: 170, description: '20 boletos personalizados' },
+      { id: 'package-custom', name: 'Cantidad Personalizada', count: 'custom', price: 0, description: 'Elige tu cantidad (mín. 6 boletos)' }
+    ]
   }
 }

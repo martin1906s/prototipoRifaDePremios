@@ -20,8 +20,8 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  const selectedIds = useMemo(() => 
-    state.tickets.filter(t => t.status === 'selected').map(t => t.id), 
+  const selectedNumbers = useMemo(() => 
+    state.tickets.filter(t => t.status === 'selected').map(t => t.number), 
     [state.tickets]
   )
 
@@ -30,7 +30,7 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
                      /.+@.+\..+/.test(formData.email) && 
                      formData.phone.trim() && 
                      formData.address.trim() && 
-                     selectedIds.length >= 6
+                     selectedNumbers.length >= 6
 
   const isValidPayment = paymentData.cardNumber.replace(/\s/g, '').length === 16 &&
                         paymentData.expiryDate.length === 5 &&
@@ -111,7 +111,7 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
     const buyer = { ...formData }
     
     // Confirmar compra
-    dispatch({ type: 'CONFIRM_PURCHASE', payload: { buyer, selectedIds, orderId } })
+    dispatch({ type: 'CONFIRM_PURCHASE', payload: { buyer, selectedNumbers, orderId } })
     
     // Simular envío de email
     await simulateEmailSending()
@@ -120,8 +120,8 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
     const receipt = {
       orderId,
       buyer,
-      tickets: selectedIds,
-      amount: selectedIds.length * 10, // $10 por boleto
+      tickets: selectedNumbers,
+      amount: selectedNumbers.length * 10, // $10 por boleto
       paymentMethod: 'Tarjeta de Crédito',
       date: new Date().toISOString(),
       status: 'Completado'
@@ -274,11 +274,11 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <div className="text-white-50 small">Boletos seleccionados</div>
-                      <div className="h5 fw-bold text-white">{selectedIds.length} boletos</div>
+                      <div className="h5 fw-bold text-white">{selectedNumbers.length} boletos</div>
                     </div>
                     <div className="text-end">
                       <div className="text-white-50 small">Total</div>
-                      <div className="h5 fw-bold text-gradient">${selectedIds.length * 10}</div>
+                      <div className="h5 fw-bold text-gradient">${selectedNumbers.length * 10}</div>
                     </div>
                   </div>
                 </div>
@@ -378,12 +378,12 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
                     </div>
                     <div className="col-6">
                       <div className="text-white-50 small">Total</div>
-                      <div className="text-white fw-semibold">${selectedIds.length * 10}</div>
+                      <div className="text-white fw-semibold">${selectedNumbers.length * 10}</div>
                     </div>
                     <div className="col-12">
                       <div className="text-white-50 small">Boletos</div>
                       <div className="text-white fw-semibold font-monospace">
-                        {selectedIds.join(', ')}
+                        {selectedNumbers.join(', ')}
                       </div>
                     </div>
                   </div>

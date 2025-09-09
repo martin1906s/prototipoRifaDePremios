@@ -31,7 +31,7 @@ export const validateWinningNumber = (tickets, winningNumber) => {
   }
   
   // Buscar coincidencia exacta
-  const exactMatch = soldTickets.find(t => t.id === winningNumber)
+  const exactMatch = soldTickets.find(t => t.number === winningNumber)
   
   if (exactMatch) {
     return {
@@ -45,10 +45,10 @@ export const validateWinningNumber = (tickets, winningNumber) => {
   // Esto garantiza que SIEMPRE haya un ganador
   const winningNum = parseInt(winningNumber)
   let closestTicket = soldTickets[0]
-  let minDifference = Math.abs(parseInt(closestTicket.id) - winningNum)
+  let minDifference = Math.abs(parseInt(closestTicket.number) - winningNum)
   
   for (const ticket of soldTickets) {
-    const difference = Math.abs(parseInt(ticket.id) - winningNum)
+    const difference = Math.abs(parseInt(ticket.number) - winningNum)
     if (difference < minDifference) {
       minDifference = difference
       closestTicket = ticket

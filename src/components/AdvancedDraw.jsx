@@ -228,7 +228,7 @@ export default function AdvancedDraw() {
                     <div className="col-md-6">
                       <div className="text-white-50 small">Boleto Ganador</div>
                       <div className="h4 fw-bold font-monospace text-white">
-                        #{drawResult.validation.ticket.id}
+                        #{drawResult.validation.ticket.number}
                       </div>
                     </div>
                     <div className="col-md-6">
