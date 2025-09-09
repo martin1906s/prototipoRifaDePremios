@@ -175,17 +175,17 @@ export default function TicketPackages({ onMinSelectionInvalid }) {
           </h6>
           <div className="row g-3">
             {ticketPackages.map((pkg) => (
-              <div key={pkg.id} className="col-md-6 col-lg-3">
+              <div key={pkg.id} className="col-12 col-sm-6 col-lg-3">
                 <div 
                   className={`glass rounded-3 p-3 text-center hover-lift cursor-pointer ${selectedPackage?.id === pkg.id ? 'animate-glow' : ''}`}
                   onClick={() => handlePackageSelect(pkg)}
-                  style={{ cursor: 'pointer', minHeight: '150px' }}
+                  style={{ cursor: 'pointer', minHeight: '140px' }}
                 >
                   <div className="fs-1 mb-2">🎫</div>
                   <h6 className="fw-bold text-white mb-2">{pkg.name}</h6>
                   <div className="h4 fw-bold text-gradient mb-2">{pkg.count} boletos</div>
                   <div className="h5 fw-bold text-white mb-2">${pkg.price}</div>
-                  <div className="small text-white-50">{pkg.description}</div>
+                  <div className="small text-white-50 d-none d-sm-block">{pkg.description}</div>
                   <div className="mt-2">
                     <span className="badge bg-success">${(pkg.price / pkg.count).toFixed(1)} por boleto</span>
                   </div>

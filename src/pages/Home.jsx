@@ -122,21 +122,24 @@ export default function Home() {
       }
     }
 
+    // Mezclar los números para distribución intercalada
+    const shuffledNumbers = [...numbersToUse].sort(() => Math.random() - 0.5)
+    
     // Dividir los números en compras de diferentes tamaños (6-20 boletos por compra)
     const purchases = []
     let currentIndex = 0
     let purchaseIndex = 0
 
-    while (currentIndex < numbersToUse.length) {
+    while (currentIndex < shuffledNumbers.length) {
       // Determinar el tamaño de esta compra (entre 6 y 20 boletos, o el resto si es menor)
-      const remainingNumbers = numbersToUse.length - currentIndex
+      const remainingNumbers = shuffledNumbers.length - currentIndex
       const maxPurchaseSize = Math.min(20, remainingNumbers)
       const minPurchaseSize = Math.min(6, remainingNumbers)
       
       // Si quedan menos de 6 boletos, agregarlos a la compra anterior o crear una compra pequeña
       if (remainingNumbers < 6 && purchases.length > 0) {
         // Agregar los números restantes a la última compra
-        purchases[purchases.length - 1].tickets.push(...numbersToUse.slice(currentIndex))
+        purchases[purchases.length - 1].tickets.push(...shuffledNumbers.slice(currentIndex))
         break
       }
       
@@ -144,7 +147,7 @@ export default function Home() {
         Math.floor(Math.random() * (maxPurchaseSize - minPurchaseSize + 1)) + minPurchaseSize : 
         remainingNumbers
 
-      const purchaseNumbers = numbersToUse.slice(currentIndex, currentIndex + purchaseSize)
+      const purchaseNumbers = shuffledNumbers.slice(currentIndex, currentIndex + purchaseSize)
       
       purchases.push({
         buyer: generateBuyer(purchaseIndex),
@@ -273,28 +276,34 @@ export default function Home() {
               {/* Información de la Rifa */}
               <div className="glass rounded-3 rounded-md-4 p-3 p-md-4 mb-4 hover-lift">
                 <div className="row g-3 text-center">
-                  <div className="col-md-4">
+                  <div className="col-12 col-sm-4">
                     <div className="fs-4 mb-2">💰</div>
                     <div className="text-white-50 small">Precio por Boleto</div>
                     <div className="h5 fw-bold text-white">${state.raffleConfig?.ticketPrice || 10}</div>
-                    <div className="text-success small">
+                    <div className="text-success small d-none d-md-block">
                       <i className="fas fa-sync-alt me-1"></i>
                       Precios actualizados automáticamente
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-12 col-sm-4">
                     <div className="fs-4 mb-2">🎫</div>
                     <div className="text-white-50 small">Rango de Números</div>
                     <div className="h6 fw-bold text-white">
                       {String(state.raffleConfig?.minTicketNumber || 1).padStart(5, '0')} - {String(state.raffleConfig?.maxTicketNumber || 99999).padStart(5, '0')}
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-12 col-sm-4">
                     <div className="fs-4 mb-2">📊</div>
                     <div className="text-white-50 small">Límite de Boletos</div>
                     <div className="h6 fw-bold text-white">
                       {state.raffleConfig?.totalTickets ? state.raffleConfig.totalTickets : 'Sin límite'}
                     </div>
+                  </div>
+                </div>
+                <div className="text-center mt-3 d-md-none">
+                  <div className="text-success small">
+                    <i className="fas fa-sync-alt me-1"></i>
+                    Precios actualizados automáticamente
                   </div>
                 </div>
               </div>

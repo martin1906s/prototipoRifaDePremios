@@ -14,7 +14,12 @@ export default function AdminPanel() {
     maxTicketNumber: state.raffleConfig?.maxTicketNumber || 99999
   })
 
-  const soldTickets = useMemo(() => state.tickets.filter(t => t.status === 'sold'), [state.tickets])
+  const soldTickets = useMemo(() => 
+    state.tickets
+      .filter(t => t.status === 'sold')
+      .sort((a, b) => parseInt(a.number) - parseInt(b.number)), 
+    [state.tickets]
+  )
 
   const stats = {
     total: state.tickets.length,
@@ -100,36 +105,36 @@ export default function AdminPanel() {
     <div>
       {/* Estadísticas */}
       <div className="row g-2 g-md-4 mb-3 mb-md-5">
-        <div className="col-6 col-md-3">
+        <div className="col-6 col-sm-6 col-md-3">
           <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in">
             <div className="fs-1 mb-2 mb-md-3">📊</div>
             <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Total</div>
-            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.total}</div>
-            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">Boletos totales</div>
+            <div className="h4 h-md-display-4 fw-bold text-gradient">{stats.total}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-sm-block">Boletos totales</div>
           </div>
         </div>
-        <div className="col-6 col-md-3">
+        <div className="col-6 col-sm-6 col-md-3">
           <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.1s'}}>
             <div className="fs-1 mb-2 mb-md-3">🎫</div>
             <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Disponibles</div>
-            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.available}</div>
-            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">Boletos disponibles</div>
+            <div className="h4 h-md-display-4 fw-bold text-gradient">{stats.available}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-sm-block">Boletos disponibles</div>
           </div>
         </div>
-        <div className="col-6 col-md-3">
+        <div className="col-6 col-sm-6 col-md-3">
           <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.2s'}}>
             <div className="fs-1 mb-2 mb-md-3">⏳</div>
             <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Seleccionados</div>
-            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.selected}</div>
-            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">En proceso de compra</div>
+            <div className="h4 h-md-display-4 fw-bold text-gradient">{stats.selected}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-sm-block">En proceso de compra</div>
           </div>
         </div>
-        <div className="col-6 col-md-3">
+        <div className="col-6 col-sm-6 col-md-3">
           <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.3s'}}>
             <div className="fs-1 mb-2 mb-md-3">✅</div>
             <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Vendidos</div>
-            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.sold}</div>
-            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">Boletos vendidos</div>
+            <div className="h4 h-md-display-4 fw-bold text-gradient">{stats.sold}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-sm-block">Boletos vendidos</div>
           </div>
         </div>
       </div>
@@ -151,14 +156,14 @@ export default function AdminPanel() {
 
         {!showConfig ? (
           <div className="row g-3">
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="glass-dark rounded-3 p-3 text-center">
                 <div className="fs-4 mb-2">💰</div>
                 <div className="small text-white-50">Precio por Boleto</div>
                 <div className="h5 fw-bold text-white">${state.raffleConfig?.ticketPrice || 10}</div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="glass-dark rounded-3 p-3 text-center">
                 <div className="fs-4 mb-2">🎫</div>
                 <div className="small text-white-50">Cantidad Total</div>
@@ -167,7 +172,7 @@ export default function AdminPanel() {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="glass-dark rounded-3 p-3 text-center">
                 <div className="fs-4 mb-2">🔢</div>
                 <div className="small text-white-50">Rango de Números</div>
@@ -176,7 +181,7 @@ export default function AdminPanel() {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="glass-dark rounded-3 p-3 text-center">
                 <div className="fs-4 mb-2">📊</div>
                 <div className="small text-white-50">Estado</div>
@@ -283,36 +288,6 @@ export default function AdminPanel() {
         )}
       </div>
 
-      {/* Reglas del Sorteo */}
-      <div className="glass rounded-3 rounded-md-4 p-3 p-md-4 mb-4 hover-lift animate-fade-in">
-        <h6 className="text-white fw-bold mb-3">
-          <i className="fas fa-gavel me-2"></i>Reglas del Sorteo
-        </h6>
-        <div className="row g-3">
-          <div className="col-md-4">
-            <div className="text-center">
-              <div className="fs-1 mb-2">🚗</div>
-              <div className="fw-semibold text-white small">Todos los boletos vendidos</div>
-              <div className="text-white-50 small">Premio: Camioneta</div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="text-center">
-              <div className="fs-1 mb-2">💰</div>
-              <div className="fw-semibold text-white small">Boletos parcialmente vendidos</div>
-              <div className="text-white-50 small">Premio: $5,000 en efectivo</div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="text-center">
-              <div className="fs-1 mb-2">🎯</div>
-              <div className="fw-semibold text-white small">Siempre hay ganador</div>
-              <div className="text-white-50 small">Número oficial de Lotería Nacional</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Información Detallada de Boletos */}
       <div className="glass rounded-3 rounded-md-4 p-3 p-md-4 mb-4 hover-lift animate-fade-in">
         <h6 className="text-white fw-bold mb-3">
@@ -407,68 +382,77 @@ export default function AdminPanel() {
       
       {/* Botones de Control */}
       <div className="text-center mb-5">
-        <div className="d-flex flex-column flex-md-row gap-3 justify-content-center">
-          <button 
-            onClick={() => {
-              // Crear datos de prueba
-              const testEconomicWinners = [{
-                id: 'test-eco-1',
-                ticketNumber: '12345',
-                buyerName: 'Juan Pérez',
-                prizeAmount: 100,
-                drawDate: new Date().toISOString(),
-                type: 'economic'
-              }]
-              
-              const testMajorWinners = [{
-                id: 'test-major-1',
-                ticketNumber: '67890',
-                buyerName: 'María García',
-                prizeDescription: 'Camioneta Toyota Hilux 2024',
-                drawDate: new Date().toISOString(),
-                type: 'major'
-              }, {
-                id: 'test-major-2',
-                ticketNumber: '11111',
-                buyerName: 'Carlos López',
-                prizeDescription: 'Casa de 3 habitaciones',
-                drawDate: new Date().toISOString(),
-                type: 'major'
-              }]
-              
-              dispatch({ type: 'ADD_ECONOMIC_WINNERS', payload: testEconomicWinners })
-              dispatch({ type: 'ADD_MAJOR_WINNER', payload: testMajorWinners })
-            }}
-            className="btn btn-lg btn-outline-info border-2 rounded-pill px-4 py-3 fw-bold hover-lift"
-            style={{minHeight: '60px'}}
-          >
-            <i className="fas fa-flask me-2"></i>
-            Datos de Prueba
-          </button>
-          <button 
-            onClick={() => {
-              if (window.confirm('¿Estás seguro de que quieres limpiar todos los ganadores? Esto eliminará todos los registros de sorteos.')) {
-                dispatch({ type: 'CLEAR_ALL_WINNERS' })
-              }
-            }}
-            className="btn btn-lg btn-outline-warning border-2 rounded-pill px-4 py-3 fw-bold hover-lift"
-            style={{minHeight: '60px'}}
-          >
-            <i className="fas fa-trophy me-2"></i>
-            Limpiar Ganadores
-          </button>
-          <button 
-            onClick={() => {
-              if (window.confirm('¿Estás seguro de que quieres resetear toda la aplicación? Esto eliminará todos los datos guardados.')) {
-                dispatch({ type: 'RESET_APPLICATION' })
-              }
-            }}
-            className="btn btn-lg btn-outline-light border-2 rounded-pill px-4 py-3 fw-bold hover-lift"
-            style={{minHeight: '60px'}}
-          >
-            <i className="fas fa-trash-alt me-2"></i>
-            Reset App
-          </button>
+        <div className="row g-3 justify-content-center">
+          <div className="col-12 col-sm-6 col-md-4">
+            <button 
+              onClick={() => {
+                // Crear datos de prueba
+                const testEconomicWinners = [{
+                  id: 'test-eco-1',
+                  ticketNumber: '12345',
+                  buyerName: 'Juan Pérez',
+                  prizeAmount: 100,
+                  drawDate: new Date().toISOString(),
+                  type: 'economic'
+                }]
+                
+                const testMajorWinners = [{
+                  id: 'test-major-1',
+                  ticketNumber: '67890',
+                  buyerName: 'María García',
+                  prizeDescription: 'Camioneta Toyota Hilux 2024',
+                  drawDate: new Date().toISOString(),
+                  type: 'major'
+                }, {
+                  id: 'test-major-2',
+                  ticketNumber: '11111',
+                  buyerName: 'Carlos López',
+                  prizeDescription: 'Casa de 3 habitaciones',
+                  drawDate: new Date().toISOString(),
+                  type: 'major'
+                }]
+                
+                dispatch({ type: 'ADD_ECONOMIC_WINNERS', payload: testEconomicWinners })
+                dispatch({ type: 'ADD_MAJOR_WINNER', payload: testMajorWinners })
+              }}
+              className="btn btn-lg btn-outline-info border-2 rounded-pill px-3 px-md-4 py-2 py-md-3 fw-bold hover-lift w-100"
+              style={{minHeight: '50px'}}
+            >
+              <i className="fas fa-flask me-2"></i>
+              <span className="d-none d-sm-inline">Datos de Prueba</span>
+              <span className="d-sm-none">Prueba</span>
+            </button>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4">
+            <button 
+              onClick={() => {
+                if (window.confirm('¿Estás seguro de que quieres limpiar todos los ganadores? Esto eliminará todos los registros de sorteos.')) {
+                  dispatch({ type: 'CLEAR_ALL_WINNERS' })
+                }
+              }}
+              className="btn btn-lg btn-outline-warning border-2 rounded-pill px-3 px-md-4 py-2 py-md-3 fw-bold hover-lift w-100"
+              style={{minHeight: '50px'}}
+            >
+              <i className="fas fa-trophy me-2"></i>
+              <span className="d-none d-sm-inline">Limpiar Ganadores</span>
+              <span className="d-sm-none">Limpiar</span>
+            </button>
+          </div>
+          <div className="col-12 col-sm-12 col-md-4">
+            <button 
+              onClick={() => {
+                if (window.confirm('¿Estás seguro de que quieres resetear toda la aplicación? Esto eliminará todos los datos guardados.')) {
+                  dispatch({ type: 'RESET_APPLICATION' })
+                }
+              }}
+              className="btn btn-lg btn-outline-light border-2 rounded-pill px-3 px-md-4 py-2 py-md-3 fw-bold hover-lift w-100"
+              style={{minHeight: '50px'}}
+            >
+              <i className="fas fa-trash-alt me-2"></i>
+              <span className="d-none d-sm-inline">Reset App</span>
+              <span className="d-sm-none">Reset</span>
+            </button>
+          </div>
         </div>
       </div>
 

@@ -176,7 +176,7 @@ export default function EconomicDraw() {
           <div className="text-center mb-4">
             <div className="fs-1 mb-3">🎉</div>
             <h5 className="text-white fw-bold mb-2">¡Sorteo Realizado!</h5>
-            <div className="badge bg-success fs-6 px-3 py-2">
+            <div className="badge bg-success fs-6 fs-md-5 px-2 px-md-3 py-2 text-wrap">
               ${result.totalPrize} repartidos entre {result.winners.length} ganadores
             </div>
           </div>
