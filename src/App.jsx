@@ -68,32 +68,34 @@ export default function App() {
           <Route path="/user" element={
             <div className="min-vh-100 d-flex flex-column">
               <header className="w-100 glass sticky-top animate-fade-in" style={{zIndex: 1000}}>
-                <div className="container-fluid px-4 py-4">
+                <div className="container-fluid px-3 px-md-4 py-3 py-md-4">
                   <div className="d-flex align-items-center justify-content-between">
-                    <Link to="/" className="text-decoration-none d-flex align-items-center gap-3">
-                      <div className="fs-1 animate-pulse-custom">🎟️</div>
-                      <div>
-                        <h1 className="h3 mb-0 text-gradient fw-bold">Rifa de Premios</h1>
-                        <small className="text-white-50">¡Tu suerte te espera!</small>
+                    <Link to="/" className="text-decoration-none d-flex align-items-center gap-2 gap-md-3">
+                      <div className="fs-1 fs-md-1 animate-pulse-custom">🎟️</div>
+                      <div className="d-none d-sm-block">
+                        <h1 className="h4 h-md-3 mb-0 text-gradient fw-bold">Rifa de Premios</h1>
+                        <small className="text-white-50 d-none d-md-block">¡Tu suerte te espera!</small>
                       </div>
                     </Link>
-                    <nav className="d-flex align-items-center gap-4">
-                      <div className="d-none d-lg-flex gap-3">
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-success animate-glow"></div>
-                          <span className="small fw-medium">Disponibles: <strong>{available}</strong></span>
+                    <nav className="d-flex align-items-center gap-2 gap-md-4">
+                      <div className="d-none d-md-flex gap-2 gap-lg-3">
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-success animate-glow"></div>
+                          <span className="small fw-medium">Disp: <strong>{available}</strong></span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-warning animate-pulse-custom"></div>
-                          <span className="small fw-medium">Seleccionados: <strong>{selected}</strong></span>
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-warning animate-pulse-custom"></div>
+                          <span className="small fw-medium">Sel: <strong>{selected}</strong></span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-danger"></div>
-                          <span className="small fw-medium">Vendidos: <strong>{sold}</strong></span>
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-danger"></div>
+                          <span className="small fw-medium">Vend: <strong>{sold}</strong></span>
                         </div>
                       </div>
-                      <Link to="/admin" className="btn btn-light btn-sm px-4 py-2 rounded-pill fw-semibold hover-lift">
-                        <i className="fas fa-cog me-2"></i>Admin
+                      <Link to="/admin" className="btn btn-light btn-sm px-2 px-md-4 py-1 py-md-2 rounded-pill fw-semibold hover-lift">
+                        <i className="fas fa-cog d-none d-md-inline me-2"></i>
+                        <span className="d-md-none">⚙️</span>
+                        <span className="d-none d-md-inline">Admin</span>
                       </Link>
                     </nav>
                   </div>
@@ -114,32 +116,34 @@ export default function App() {
           <Route path="/admin" element={
             <div className="min-vh-100 d-flex flex-column">
               <header className="w-100 glass sticky-top animate-fade-in" style={{zIndex: 1000}}>
-                <div className="container-fluid px-4 py-4">
+                <div className="container-fluid px-3 px-md-4 py-3 py-md-4">
                   <div className="d-flex align-items-center justify-content-between">
-                    <Link to="/" className="text-decoration-none d-flex align-items-center gap-3">
-                      <div className="fs-1 animate-pulse-custom">🎟️</div>
-                      <div>
-                        <h1 className="h3 mb-0 text-gradient fw-bold">Rifa de Premios</h1>
-                        <small className="text-white-50">¡Tu suerte te espera!</small>
+                    <Link to="/" className="text-decoration-none d-flex align-items-center gap-2 gap-md-3">
+                      <div className="fs-1 fs-md-1 animate-pulse-custom">🎟️</div>
+                      <div className="d-none d-sm-block">
+                        <h1 className="h4 h-md-3 mb-0 text-gradient fw-bold">Rifa de Premios</h1>
+                        <small className="text-white-50 d-none d-md-block">¡Tu suerte te espera!</small>
                       </div>
                     </Link>
-                    <nav className="d-flex align-items-center gap-4">
-                      <div className="d-none d-lg-flex gap-3">
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-success animate-glow"></div>
-                          <span className="small fw-medium">Disponibles: <strong>{available}</strong></span>
+                    <nav className="d-flex align-items-center gap-2 gap-md-4">
+                      <div className="d-none d-md-flex gap-2 gap-lg-3">
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-success animate-glow"></div>
+                          <span className="small fw-medium">Disp: <strong>{available}</strong></span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-warning animate-pulse-custom"></div>
-                          <span className="small fw-medium">Seleccionados: <strong>{selected}</strong></span>
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-warning animate-pulse-custom"></div>
+                          <span className="small fw-medium">Sel: <strong>{selected}</strong></span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-                          <div className="w-3 h-3 rounded-circle bg-danger"></div>
-                          <span className="small fw-medium">Vendidos: <strong>{sold}</strong></span>
+                        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+                          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-danger"></div>
+                          <span className="small fw-medium">Vend: <strong>{sold}</strong></span>
                         </div>
                       </div>
-                      <Link to="/user" className="btn btn-light btn-sm px-4 py-2 rounded-pill fw-semibold hover-lift">
-                        <i className="fas fa-user me-2"></i>Usuario
+                      <Link to="/user" className="btn btn-light btn-sm px-2 px-md-4 py-1 py-md-2 rounded-pill fw-semibold hover-lift">
+                        <i className="fas fa-user d-none d-md-inline me-2"></i>
+                        <span className="d-md-none">👤</span>
+                        <span className="d-none d-md-inline">Usuario</span>
                       </Link>
                     </nav>
                   </div>

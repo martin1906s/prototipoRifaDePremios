@@ -78,6 +78,42 @@ export default function AdvancedDraw() {
         </p>
       </div>
 
+      {/* Condiciones del Sorteo */}
+      <div className="glass-dark rounded-3 p-4 mb-4">
+        <h6 className="text-white fw-bold mb-3">
+          <i className="fas fa-info-circle me-2"></i>Condiciones del Sorteo
+        </h6>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <div className="d-flex align-items-start gap-3">
+              <div className="text-success fs-5">✅</div>
+              <div>
+                <div className="fw-semibold text-white small">Todos los boletos vendidos</div>
+                <div className="text-white-50 small">Se sortea la camioneta</div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="d-flex align-items-start gap-3">
+              <div className="text-warning fs-5">💰</div>
+              <div>
+                <div className="fw-semibold text-white small">Boletos parcialmente vendidos</div>
+                <div className="text-white-50 small">Se sortea premio alternativo ($5,000)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-3 pt-3 border-top border-white-25">
+          <div className="d-flex align-items-center gap-2">
+            <div className="text-info fs-5">🎯</div>
+            <div className="text-white-50 small">
+              <strong className="text-white">Siempre hay un ganador:</strong> El número ganador se obtiene de la Lotería Nacional. 
+              Si no hay coincidencia exacta, se aplica la regla del número más cercano.
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Estado de la rifa */}
       <div className="glass-dark rounded-3 p-4 mb-4">
         <div className="row g-3 text-center">
@@ -180,8 +216,11 @@ export default function AdvancedDraw() {
                   <div className="text-center mb-3">
                     <div className="fs-1 mb-2">🏆</div>
                     <h5 className="fw-bold text-white">¡Tenemos un Ganador!</h5>
-                    <div className="badge bg-warning text-dark fs-6 px-3 py-2">
+                    <div className="badge bg-warning text-dark fs-6 px-3 py-2 mb-2">
                       {drawResult.validation.message}
+                    </div>
+                    <div className="badge bg-success fs-6 px-3 py-2">
+                      Premio: {drawResult.prize}
                     </div>
                   </div>
                   
@@ -220,14 +259,16 @@ export default function AdvancedDraw() {
                 </div>
               ) : (
                 <div className="glass rounded-3 p-4 text-center">
-                  <div className="fs-1 mb-3">😔</div>
-                  <h5 className="fw-bold text-white mb-2">Sin Ganador</h5>
+                  <div className="fs-1 mb-3">⚠️</div>
+                  <h5 className="fw-bold text-white mb-2">No se puede realizar el sorteo</h5>
                   <p className="text-white-50">
-                    El número oficial no coincide con ningún boleto vendido.
-                    {drawResult.validation.type === 'closest' && (
-                      <span> Número más cercano: #{drawResult.validation.ticket.id}</span>
-                    )}
+                    {drawResult.validation.message}
                   </p>
+                  <div className="mt-3">
+                    <div className="badge bg-warning text-dark fs-6 px-3 py-2">
+                      Se requiere al menos 1 boleto vendido
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

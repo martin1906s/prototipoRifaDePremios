@@ -45,6 +45,25 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
     setPaymentData(prev => ({ ...prev, [field]: value }))
   }
 
+  const autoCompletePersonalData = () => {
+    setFormData({
+      fullName: 'Juan Carlos Pérez García',
+      documentId: '1234567890',
+      email: 'juan.perez@email.com',
+      phone: '0987654321',
+      address: 'Av. Amazonas 1234, Quito, Ecuador'
+    })
+  }
+
+  const autoCompletePaymentData = () => {
+    setPaymentData({
+      cardNumber: '4532 1234 5678 9012',
+      expiryDate: '12/25',
+      cvv: '123',
+      cardholderName: 'JUAN CARLOS PEREZ GARCIA'
+    })
+  }
+
   const formatCardNumber = (value) => {
     return value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim()
   }
@@ -138,11 +157,12 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
 
   return (
     <div className="modal show d-block" style={{backgroundColor: 'rgba(0,0,0,0.8)'}}>
-      <div className="modal-dialog modal-lg modal-dialog-centered">
+      <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content glass border-0">
-          <div className="modal-header border-0">
-            <h5 className="modal-title text-white fw-bold">
-              <i className="fas fa-shopping-cart me-2"></i>
+          <div className="modal-header border-0 p-3 p-md-4">
+            <h5 className="modal-title text-white fw-bold h6 h-md-5">
+              <i className="fas fa-shopping-cart me-2 d-none d-md-inline"></i>
+              <span className="d-md-none">🛒</span>
               Proceso de Compra
             </h5>
             <button 
@@ -152,7 +172,7 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
             ></button>
           </div>
           
-          <div className="modal-body">
+          <div className="modal-body p-3 p-md-4">
             {/* Progress Bar */}
             <div className="mb-4">
               <div className="d-flex justify-content-between mb-2">
@@ -177,9 +197,21 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
             {/* Step 1: Datos Personales */}
             {step === 1 && (
               <div className="animate-fade-in">
-                <h6 className="text-white mb-3">
-                  <i className="fas fa-user me-2"></i>Información del Comprador
-                </h6>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h6 className="text-white mb-0">
+                    <i className="fas fa-user me-2"></i>Información del Comprador
+                  </h6>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-light rounded-pill px-3 py-1"
+                    onClick={autoCompletePersonalData}
+                    title="Autocompletar con datos de ejemplo"
+                  >
+                    <i className="fas fa-magic me-1"></i>
+                    <span className="d-none d-sm-inline">Autocompletar</span>
+                    <span className="d-sm-none">Auto</span>
+                  </button>
+                </div>
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label className="form-label text-white fw-semibold mb-2">Nombre completo</label>
@@ -256,9 +288,21 @@ export default function PurchaseModal({ show, onClose, onCompleted }) {
             {/* Step 2: Pago */}
             {step === 2 && (
               <div className="animate-fade-in">
-                <h6 className="text-white mb-3">
-                  <i className="fas fa-credit-card me-2"></i>Información de Pago
-                </h6>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h6 className="text-white mb-0">
+                    <i className="fas fa-credit-card me-2"></i>Información de Pago
+                  </h6>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-light rounded-pill px-3 py-1"
+                    onClick={autoCompletePaymentData}
+                    title="Autocompletar con datos de tarjeta de ejemplo"
+                  >
+                    <i className="fas fa-magic me-1"></i>
+                    <span className="d-none d-sm-inline">Autocompletar</span>
+                    <span className="d-sm-none">Auto</span>
+                  </button>
+                </div>
                 <div className="row g-3">
                   <div className="col-12">
                     <label className="form-label text-white fw-semibold mb-2">Número de tarjeta</label>

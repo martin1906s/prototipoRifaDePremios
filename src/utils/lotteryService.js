@@ -19,27 +19,30 @@ export const simulateLotteryQuery = async () => {
 
 // Simular validación de número ganador
 export const validateWinningNumber = (tickets, winningNumber) => {
-  const exactMatch = tickets.find(t => t.id === winningNumber && t.status === 'sold')
+  const soldTickets = tickets.filter(t => t.status === 'sold')
+  
+  // Si no hay boletos vendidos, no se puede realizar el sorteo
+  if (soldTickets.length === 0) {
+    return {
+      type: 'none',
+      ticket: null,
+      message: 'No hay boletos vendidos para realizar el sorteo'
+    }
+  }
+  
+  // Buscar coincidencia exacta
+  const exactMatch = soldTickets.find(t => t.id === winningNumber)
   
   if (exactMatch) {
     return {
       type: 'exact',
       ticket: exactMatch,
-      message: '¡Coincidencia exacta!'
+      message: '¡Coincidencia exacta con el número oficial!'
     }
   }
   
   // Si no hay coincidencia exacta, buscar el más cercano
-  const soldTickets = tickets.filter(t => t.status === 'sold')
-  if (soldTickets.length === 0) {
-    return {
-      type: 'none',
-      ticket: null,
-      message: 'No hay boletos vendidos para validar'
-    }
-  }
-  
-  // Encontrar el número más cercano
+  // Esto garantiza que SIEMPRE haya un ganador
   const winningNum = parseInt(winningNumber)
   let closestTicket = soldTickets[0]
   let minDifference = Math.abs(parseInt(closestTicket.id) - winningNum)
@@ -56,7 +59,7 @@ export const validateWinningNumber = (tickets, winningNumber) => {
     type: 'closest',
     ticket: closestTicket,
     difference: minDifference,
-    message: `Número más cercano (diferencia: ${minDifference})`
+    message: `Número más cercano al oficial (diferencia: ${minDifference})`
   }
 }
 

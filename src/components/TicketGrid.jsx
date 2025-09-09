@@ -15,21 +15,21 @@ export default function TicketGrid({ onMinSelectionInvalid }) {
 
   return (
     <div>
-      <div className="d-flex flex-wrap align-items-center justify-content-center gap-4 mb-4">
-        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-          <div className="w-3 h-3 rounded-circle bg-success animate-glow"></div>
+      <div className="d-flex flex-wrap align-items-center justify-content-center gap-2 gap-md-4 mb-3 mb-md-4">
+        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-success animate-glow"></div>
           <span className="small fw-medium">Disponible</span>
         </div>
-        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-          <div className="w-3 h-3 rounded-circle bg-warning animate-pulse-custom"></div>
+        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-warning animate-pulse-custom"></div>
           <span className="small fw-medium">Seleccionado</span>
         </div>
-        <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-dark text-white">
-          <div className="w-3 h-3 rounded-circle bg-danger"></div>
+        <div className="d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 py-md-2 rounded-pill glass-dark text-white">
+          <div className="w-2 w-md-3 h-2 h-md-3 rounded-circle bg-danger"></div>
           <span className="small fw-medium">Vendido</span>
         </div>
       </div>
-      <div className="row g-2 g-md-3">
+      <div className="row g-1 g-sm-2 g-md-3">
         {state.tickets.map((ticket, index) => {
           const base = 'btn fw-bold font-monospace d-flex align-items-center justify-content-center position-relative overflow-hidden'
           const color = ticket.status === 'sold'
@@ -39,13 +39,13 @@ export default function TicketGrid({ onMinSelectionInvalid }) {
               : 'bg-success text-white'
 
           return (
-            <div key={ticket.id} className="col-4 col-sm-3 col-md-2 col-lg-1 col-xl-1 col-xxl-1">
+            <div key={ticket.id} className="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1 col-xxl-1">
               <button
                 type="button"
                 className={`${base} ${color} w-100 border-0 hover-lift`}
                 style={{
                   aspectRatio: '3/2',
-                  minHeight: '60px',
+                  minHeight: window.innerWidth < 576 ? '45px' : '60px',
                   animationDelay: `${index * 0.01}s`
                 }}
                 onClick={() => handleToggle(ticket.id, ticket.status)}
@@ -53,7 +53,9 @@ export default function TicketGrid({ onMinSelectionInvalid }) {
                 disabled={ticket.status === 'sold'}
               >
                 <div className="position-relative z-2">
-                  <div className="small opacity-75">#{ticket.number}</div>
+                  <div className="small opacity-75" style={{fontSize: window.innerWidth < 576 ? '0.7rem' : '0.875rem'}}>
+                    #{ticket.number}
+                  </div>
                 </div>
                 {ticket.status === 'available' && (
                   <div className="position-absolute top-0 start-0 w-100 h-100 opacity-10" 

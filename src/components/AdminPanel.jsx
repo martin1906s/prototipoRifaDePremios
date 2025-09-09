@@ -28,29 +28,59 @@ export default function AdminPanel() {
   return (
     <div>
       {/* Estadísticas */}
-      <div className="row g-4 mb-5">
-        <div className="col-sm-4">
-          <div className="glass rounded-4 p-4 text-center hover-lift animate-fade-in">
-            <div className="fs-1 mb-3">🎫</div>
-            <div className="small text-uppercase fw-bold text-white-50 mb-2">Disponibles</div>
-            <div className="display-4 fw-bold text-gradient">{stats.available}</div>
-            <div className="small text-white-50 mt-2">Boletos disponibles</div>
+      <div className="row g-2 g-md-4 mb-3 mb-md-5">
+        <div className="col-4 col-sm-4">
+          <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in">
+            <div className="fs-1 mb-2 mb-md-3">🎫</div>
+            <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Disponibles</div>
+            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.available}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">Boletos disponibles</div>
           </div>
         </div>
-        <div className="col-sm-4">
-          <div className="glass rounded-4 p-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.1s'}}>
-            <div className="fs-1 mb-3">⏳</div>
-            <div className="small text-uppercase fw-bold text-white-50 mb-2">Seleccionados</div>
-            <div className="display-4 fw-bold text-gradient">{stats.selected}</div>
-            <div className="small text-white-50 mt-2">En proceso de compra</div>
+        <div className="col-4 col-sm-4">
+          <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.1s'}}>
+            <div className="fs-1 mb-2 mb-md-3">⏳</div>
+            <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Seleccionados</div>
+            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.selected}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">En proceso de compra</div>
           </div>
         </div>
-        <div className="col-sm-4">
-          <div className="glass rounded-4 p-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.2s'}}>
-            <div className="fs-1 mb-3">✅</div>
-            <div className="small text-uppercase fw-bold text-white-50 mb-2">Vendidos</div>
-            <div className="display-4 fw-bold text-gradient">{stats.sold}</div>
-            <div className="small text-white-50 mt-2">Boletos vendidos</div>
+        <div className="col-4 col-sm-4">
+          <div className="glass rounded-3 rounded-md-4 p-2 p-md-4 text-center hover-lift animate-fade-in" style={{animationDelay: '0.2s'}}>
+            <div className="fs-1 mb-2 mb-md-3">✅</div>
+            <div className="small text-uppercase fw-bold text-white-50 mb-1 mb-md-2">Vendidos</div>
+            <div className="h3 h-md-display-4 fw-bold text-gradient">{stats.sold}</div>
+            <div className="small text-white-50 mt-1 mt-md-2 d-none d-md-block">Boletos vendidos</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Reglas del Sorteo */}
+      <div className="glass rounded-3 rounded-md-4 p-3 p-md-4 mb-4 hover-lift animate-fade-in">
+        <h6 className="text-white fw-bold mb-3">
+          <i className="fas fa-gavel me-2"></i>Reglas del Sorteo
+        </h6>
+        <div className="row g-3">
+          <div className="col-md-4">
+            <div className="text-center">
+              <div className="fs-1 mb-2">🚗</div>
+              <div className="fw-semibold text-white small">Todos los boletos vendidos</div>
+              <div className="text-white-50 small">Premio: Camioneta</div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="text-center">
+              <div className="fs-1 mb-2">💰</div>
+              <div className="fw-semibold text-white small">Boletos parcialmente vendidos</div>
+              <div className="text-white-50 small">Premio: $5,000 en efectivo</div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="text-center">
+              <div className="fs-1 mb-2">🎯</div>
+              <div className="fw-semibold text-white small">Siempre hay ganador</div>
+              <div className="text-white-50 small">Número oficial de Lotería Nacional</div>
+            </div>
           </div>
         </div>
       </div>
