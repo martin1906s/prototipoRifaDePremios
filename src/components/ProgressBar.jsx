@@ -30,7 +30,6 @@ export default function ProgressBar() {
         </div>
       </div>
       
-      <div className="fs-4 fs-md-3">🚗</div>
     </div>
   )
 }

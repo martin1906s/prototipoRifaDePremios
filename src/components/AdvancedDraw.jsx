@@ -129,9 +129,6 @@ export default function AdvancedDraw() {
           </div>
           <div className="col-md-4">
             <div className="text-white-50 small">Premio</div>
-            <div className="h4 fw-bold text-gradient">
-              {allTicketsSold ? '🚗 Camioneta' : '💰 $5,000'}
-            </div>
           </div>
         </div>
       </div>
